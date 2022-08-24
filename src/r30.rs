@@ -25,16 +25,16 @@ impl r30
         self.Iterate();
         return bit;
     }
-    pub fn Rand64(&mut self) -> u64
+    pub fn Rand64(&mut self, bits: usize) -> u64
     {
         let mut y: u64 = 0 as u64;
 
-        for n in 0..64
+        for n in 0..bits
         {
             let bit: bool = self.RandBit();
             y = (y & !((1 as u64) << n)) | ((bit as u64) << n);
         }
-
+        self.Iterate();
         return y;
     }
     pub fn Print(&self)
