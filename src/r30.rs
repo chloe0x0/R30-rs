@@ -2,7 +2,7 @@ const DEB: u64 = (1 as u64) << 31;
 
 pub struct r30
 {
-    pub state: u64
+    state: u64
 }
 
 impl r30
