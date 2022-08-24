@@ -1,5 +1,5 @@
-const DEB: u64 = (1 as u64) << 31;
-
+pub const DEB: u64 = (1 as u64) << 31;
+const CELL_STR: &str = "\u{2588}";
 
 pub struct r30
 {
@@ -15,8 +15,8 @@ impl r30
     fn Iterate(&mut self)
     {
         // pre-evolve the edge bit to avoid overflow on the most significant bit (leads to the state becoming u64 max)
-        let n: u64 = (self.state & ((1 as u64)) << 63) ^ (self.state & ((1 as u64) << 63)) | ((self.state & ((1 as u64) << 62)) << 63);
-        self.state = (self.state & !((1 as u64) << 63)) | ((n as u64) << 63);
+        let n: u64 = (self.state & ((1 as u64)))<<63 ^ (self.state & ((1 as u64) << 63)) | (self.state >> 1);
+        self.state = (self.state & !((1 as u64) << 63)) | ((n << 63));
         self.state = (self.state >> 1) ^ (self.state | (self.state << 1));
     }
     pub fn RandBit(&mut self) -> u64
@@ -27,21 +27,23 @@ impl r30
     }
     pub fn Print(&self)
     {
+        let mut string = String::new();
+
         let mut i = 63;
         while i >= 0
         {
             let n = (self.state & ((1 as u64) << i) != 0) as u64;
             if n != 0
             {
-                print!("1");
+                string = string + CELL_STR;
             }
             else
             {
-                print!(" ");
+                string = string + " ";
             }
             i = i - 1;
         }
-        print!("\n");
+        println!("{}", string);
     }
 }
 
