@@ -16,18 +16,26 @@ impl r30
     {
         // pre-evolve the edge bit to avoid overflow on the most significant bit (leads to the state becoming u64 max)
         let n: u64 = (self.state & ((1 as u64)))<<63 ^ (self.state & ((1 as u64) << 63)) | (self.state >> 1);
-        self.state = (self.state & !((1 as u64) << 63)) | ((n << 63));
+        self.state = (self.state & !((1 as u64) << 63)) | (n << 63);
         self.state = (self.state >> 1) ^ (self.state | (self.state << 1));
     }
-    pub fn RandBit(&mut self) -> bool
+    pub fn RandBit(&mut self) -> u64
     {
-        let bit: bool = self.state & ((1 as u64) << 31) != 0;
+        let bit: u64 = (self.state & ((1 as u64) << 31) != 0) as u64;
         self.Iterate();
         return bit;
     }
     pub fn Rand64(&mut self) -> u64
     {
-        return 0 as u64;
+        let mut y: u64 = 0 as u64;
+
+        for n in 0..64
+        {
+            let bit: u64 = self.RandBit();
+            y = (y & !((1 as u64) << n)) | (bit << n);
+        }
+
+        return y;
     }
     pub fn Print(&self)
     {
@@ -36,8 +44,8 @@ impl r30
         let mut i = 63;
         while i >= 0
         {
-            let n = (self.state & ((1 as u64) << i) != 0);
-            if n
+            let n = (self.state & ((1 as u64) << i) != 0) as u64;
+            if n != 0
             {
                 string = string + CELL_STR;
             }
