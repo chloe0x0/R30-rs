@@ -1,5 +1,6 @@
 const DEB: u64 = (1 as u64) << 31;
 
+
 pub struct r30
 {
     state: u64
@@ -7,7 +8,7 @@ pub struct r30
 
 impl r30
 {
-    fn new(seed: u64) -> Self
+    pub fn new(seed: u64) -> Self
     {
         r30 { state: seed }
     }
@@ -18,19 +19,19 @@ impl r30
         self.state = (self.state & !((1 as u64) << 63)) | ((n as u64) << 63);
         self.state = (self.state >> 1) ^ (self.state | (self.state << 1));
     }
-    fn RandBit(&mut self) -> u64
+    pub fn RandBit(&mut self) -> u64
     {
         let bit: u64 = (self.state & ((1 as u64) << 31) != 0) as u64;
         self.Iterate();
         return bit;
     }
-    fn Print(&self)
+    pub fn Print(&self)
     {
         let mut i = 63;
         while i >= 0
         {
             let n = (self.state & ((1 as u64) << i) != 0) as u64;
-            if (n != 0)
+            if n != 0
             {
                 print!("1");
             }
