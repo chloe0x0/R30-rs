@@ -21,7 +21,7 @@ impl r30
     }
     pub fn RandBit(&mut self) -> bool
     {
-        let bit: bool = (self.state & ((1 as u64) << 31) != 0);
+        let bit: bool = self.state & ((1 as u64) << 31) != 0;
         self.Iterate();
         return bit;
     }
@@ -36,8 +36,8 @@ impl r30
         let mut i = 63;
         while i >= 0
         {
-            let n = (self.state & ((1 as u64) << i) != 0) as u64;
-            if n != 0
+            let n = (self.state & ((1 as u64) << i) != 0);
+            if n
             {
                 string = string + CELL_STR;
             }

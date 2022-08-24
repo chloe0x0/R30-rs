@@ -9,7 +9,7 @@ fn main()
     for n in 0..=50
     {
         let bit: bool = rng.RandBit();
-        print!("{}\t\t|", bit as u64);
+        print!("{}\t\t|", bit);
         rng.Print();
     }
 }
