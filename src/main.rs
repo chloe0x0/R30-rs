@@ -8,8 +8,8 @@ fn main()
     rng.Print();
     for n in 0..=50
     {
-        let bit: u64 = rng.RandBit();
-        print!("{}\t\t|", bit);
+        let bit: bool = rng.RandBit();
+        print!("{}\t\t|", bit as u64);
         rng.Print();
     }
 }

@@ -19,11 +19,15 @@ impl r30
         self.state = (self.state & !((1 as u64) << 63)) | ((n << 63));
         self.state = (self.state >> 1) ^ (self.state | (self.state << 1));
     }
-    pub fn RandBit(&mut self) -> u64
+    pub fn RandBit(&mut self) -> bool
     {
-        let bit: u64 = (self.state & ((1 as u64) << 31) != 0) as u64;
+        let bit: bool = (self.state & ((1 as u64) << 31) != 0);
         self.Iterate();
         return bit;
+    }
+    pub fn Rand64(&mut self) -> u64
+    {
+        return 0 as u64;
     }
     pub fn Print(&self)
     {
