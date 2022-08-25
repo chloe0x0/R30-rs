@@ -1,25 +1,33 @@
-mod R30;
-use R30::{r30, DEB};
+mod r30;
+use r30::{R30, DEB};
 use std::time::SystemTime;
 
 fn main()
 {
-    let seed: u64 = SystemTime::now()
+    let mut seed: u64 = SystemTime::now()
         .duration_since(SystemTime::UNIX_EPOCH)
         .expect("Duraction since UNIX_EPOCH Failed!!!")
         .as_secs();
-    let mut rng: r30 = r30::new(seed);
+    seed *= seed;   // square the time
+    let mut rng: R30 = R30::new(seed);
     print!("1\t\t|");
-    rng.Print();
-    for n in 0..=50
+    rng.print();
+    for _n in 0..=50
     {
-        let bit: u64 = rng.RandBit() as u64;
+        let bit: u64 = rng.rand_bit() as u64;
         print!("{}\t\t|", bit);
-        rng.Print();
+        rng.print();
     }
 
-    for n in 0..=5
+    for n in 0..50
     {
-        print!("{}, ", rng.Rand64(10));
+        if (n+1) % 5 == 0
+        {
+            println!("{}", rng.rand_u64(5));
+        }
+        else
+        {
+            print!("{}, ", rng.rand_u64(5));
+        }
     }
 }

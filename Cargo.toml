@@ -1,5 +1,5 @@
 [package]
-name = "R30-rs"
+name = "r30_rs"
 version = "0.1.0"
 edition = "2021"
 
