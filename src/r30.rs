@@ -41,11 +41,7 @@ impl R30 {
         let mut i = 63;
         while i >= 0 {
             let n = (self.state & ((1 as u64) << i) != 0) as u64;
-            if n != 0 {
-                string = string + CELL_STR;
-            } else {
-                string = string + " ";
-            }
+            string += if (n != 0) { CELL_STR } else { " " };
             i = i - 1;
         }
         println!("{}", string);
