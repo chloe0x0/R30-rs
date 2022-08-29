@@ -10,11 +10,11 @@ fn main() {
     seed *= seed; // square the time
     let mut rng: R30 = R30::new(seed);
     print!("1\t\t|");
-    rng.print();
+    println!("{}", rng.to_string());
     for _n in 0..=50 {
         let bit: u64 = rng.rand_bit() as u64;
         print!("{}\t\t|", bit);
-        rng.print();
+        println!("{}", rng.to_string());
     }
 
     for n in 0..50 {

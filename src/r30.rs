@@ -35,15 +35,16 @@ impl R30 {
         self.iterate();
         return y;
     }
-    pub fn print(&self) {
-        let mut string = String::new();
+    pub fn to_string(&self) -> String {
+        let mut s = String::new();
 
         let mut i = 63;
         while i >= 0 {
             let n = (self.state & ((1 as u64) << i) != 0) as u64;
-            string += if (n != 0) { CELL_STR } else { " " };
-            i = i - 1;
+            s += if n != 0 { CELL_STR } else { " " };
+            i -= 1;
         }
-        println!("{}", string);
+
+        return s;
     }
 }
