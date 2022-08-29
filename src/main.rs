@@ -4,19 +4,13 @@ use std::time::SystemTime;
 
 fn main() {
     let mut rng: R30 = R30::from_time();
-    print!("1\t\t|");
-    println!("{}", rng.to_string());
-    for _n in 0..=50 {
-        let bit: u64 = rng.rand_bit() as u64;
-        print!("{}\t\t|", bit);
-        println!("{}", rng.to_string());
-    }
 
-    for n in 0..50 {
-        if (n + 1) % 5 == 0 {
-            println!("{}", rng.rand_u64(5));
+    for i in 0..50 {
+        let n = rng.rand_u64_in(0, 100);
+        if (i + 1) % 5 == 0 {
+            println!("{}", n);
         } else {
-            print!("{}, ", rng.rand_u64(5));
+            print!("{}, ", n);
         }
     }
 }
