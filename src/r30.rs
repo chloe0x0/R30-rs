@@ -1,12 +1,26 @@
-pub const DEB: u64 = (1 as u64) << 31;
-const CELL_STR: &str = "\u{2588}";
+use std::time::SystemTime;
 
+// Establish some constants
+pub const DEB: u64 = (1 as u64) << 31; // use for debugging
+const CELL_STR: &str = "\u{2588}"; // what to print for active cells when converting the state ot a String`
+
+// An entire PRNG in a single 64 bit word....
 pub struct R30 {
     state: u64,
 }
 
 impl R30 {
     pub fn new(seed: u64) -> Self {
+        R30 { state: seed }
+    }
+    pub fn from_time() -> Self {
+        // get current system time and square it
+        let mut seed: u64 = SystemTime::now()
+            .duration_since(SystemTime::UNIX_EPOCH)
+            .expect("Duraction since UNIX_EPOCH Failed!!!")
+            .as_secs();
+        seed *= seed; // square the time
+
         R30 { state: seed }
     }
     fn iterate(&mut self) {
