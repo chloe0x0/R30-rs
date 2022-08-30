@@ -5,7 +5,7 @@ use r30::{R30, DEB};
 mod tests {
     use super::*;
     #[test]
-    fn test_bit_uniformity() {
+    fn bit_uniformity() {
         // test that the generated distribution of bits in the center cell is uniformly distributed along the unit interval [0, 1]
         let mut distribution: [usize; 2] = [0, 0]; 
         let mut rng: R30 = R30::from_time();
@@ -20,8 +20,8 @@ mod tests {
         assert_eq!((distribution[1] / K), (1 / 2));
     }
     #[test]
-    fn test_u64_properties() {
-        // test the statistical properties of 64 bit words in the range [0, K] 
+    fn u64_uniformity() {
+        // test the uniformity of N generated 64 bit words in the interval [0, K] 
         const K: u64 = 100;
         let mut rng: R30 = R30::from_time();
         let mut distribution: [u64; (K+1) as usize] = [0; (K+1) as usize];
@@ -31,31 +31,20 @@ mod tests {
             distribution[rng.rand_u64_in(0, K) as usize] += 1;
         }
 
-        // can assert that P(x) = 1 / N for all x in the distribution
+        // can assert that P(x) ~ 1 / N for all x in the distribution
         // validate some statistical properties of the distribution
         // Mean of a uniform distribution is (a + b) / 2
         // In our case: b = 0, so the mean should be about K / 2
-        let mut mean: f64 = 0.0;
         for n in distribution {
-            mean += n as f64;
             assert!(( ( (n as f64) / (N as f64) ) as f64 - (1.0 / (N as f64) ) as f64 ) <= 0.05 );
-        }
-        mean /= N as f64;
-        assert!(mean - (K as f64 / 2.0) <= 0.00005);
-
-        // Compute the variance
-        let mut var_: f64 = 0.0;
-        for n in distribution {
-            var_ += ((n as f64 - mean) * (n as f64 - mean)) as f64;
-        }
-        let var: f64 = (K * K) as f64 / 12.0;
-        assert!(var - var_ <= 0.005);
+        }       
     }
 }
 
 fn main() {
     let mut rng: R30 = R30::from_time();
 
+    // print 5x5 matrix of pseudorandom integers in the interval [0, 100]
     for i in 0..50 {
         let n = rng.rand_u64_in(0, 100);
         if (i + 1) % 5 == 0 {
@@ -64,4 +53,14 @@ fn main() {
             print!("{}, ", n);
         }
     }
+
+    // Coin flip
+    if rng.rand_bit() {
+        println!("Tails!");
+    } else {
+        println!("Heads!");
+    }
+
+    // fair 6 sided dice roll
+    println!("Rolled a {}!", rng.rand_u64_in(1, 6));
 }
