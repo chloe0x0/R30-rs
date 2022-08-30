@@ -40,6 +40,7 @@ mod tests {
 
 fn main() {
     let mut rng: R30 = R30::from_time();
+    println!("{}", rng.to_string());
 
     // print 5x5 matrix of pseudorandom integers in the interval [0, 100]
     for i in 0..50 {

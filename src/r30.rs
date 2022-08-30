@@ -19,7 +19,10 @@ impl R30 {
             .duration_since(SystemTime::UNIX_EPOCH)
             .expect("Duraction since UNIX_EPOCH Failed!!!")
             .as_secs();
-        seed *= seed; // square the time
+        // square the time to distribute bits to more significant bits, otherwise there could be a long sequence of 0s
+        // Without square method~   |                                 ██   ██    ███  ███  █ ███  ███   |
+        // With square method~      |   █  ██  █ █ █    █ ██ ███ ██ █ ██   █ █  █ █   ██ ███ ███     █ |
+        seed *= seed;
 
         R30 { state: seed }
     }
