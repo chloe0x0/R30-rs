@@ -1,5 +1,5 @@
 mod r30;
-use r30::{R30, DEB};
+use r30::{DEB, R30};
 
 #[cfg(test)]
 mod tests {
@@ -7,7 +7,7 @@ mod tests {
     #[test]
     fn bit_uniformity() {
         // test that the generated distribution of bits in the center cell is uniformly distributed along the unit interval [0, 1]
-        let mut distribution: [usize; 2] = [0, 0]; 
+        let mut distribution: [usize; 2] = [0, 0];
         let mut rng: R30 = R30::from_time();
         const K: usize = 50000;
 
@@ -15,16 +15,16 @@ mod tests {
             distribution[rng.rand_bit() as usize] += 1;
         }
 
-        // assert the uniformity 
+        // assert the uniformity
         assert_eq!((distribution[0] / K), (1 / 2));
         assert_eq!((distribution[1] / K), (1 / 2));
     }
     #[test]
     fn u64_uniformity() {
-        // test the uniformity of N generated 64 bit words in the interval [0, K] 
+        // test the uniformity of N generated 64 bit words in the interval [0, K]
         const K: u64 = 100;
         let mut rng: R30 = R30::from_time();
-        let mut distribution: [u64; (K+1) as usize] = [0; (K+1) as usize];
+        let mut distribution: [u64; (K + 1) as usize] = [0; (K + 1) as usize];
 
         const N: usize = 50000;
         for _n in 0..N {
@@ -32,12 +32,9 @@ mod tests {
         }
 
         // can assert that P(x) ~ 1 / N for all x in the distribution
-        // validate some statistical properties of the distribution
-        // Mean of a uniform distribution is (a + b) / 2
-        // In our case: b = 0, so the mean should be about K / 2
         for n in distribution {
-            assert!(( ( (n as f64) / (N as f64) ) as f64 - (1.0 / (N as f64) ) as f64 ) <= 0.05 );
-        }       
+            assert!((((n as f64) / (N as f64)) as f64 - (1.0 / (N as f64)) as f64) <= 0.05);
+        }
     }
 }
 
