@@ -1,4 +1,5 @@
 mod r30;
+<<<<<<< HEAD
 use r30::{R30, DEB};
 
 #[cfg(test)]
@@ -52,6 +53,9 @@ mod tests {
         assert!(var - var_ <= 0.005);
     }
 }
+=======
+use r30::{R30, DEB};
+>>>>>>> e2305c8c9c2493b22a977dd798c42fc7923fed12
 
 fn main() {
     let mut rng: R30 = R30::from_time();
