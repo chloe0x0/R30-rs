@@ -1,6 +1,5 @@
 mod r30;
 use r30::{DEB, R30};
-use std::time::SystemTime;
 
 fn main() {
     let mut rng: R30 = R30::from_time();
