@@ -9,7 +9,7 @@ mod tests {
         // test that the generated distribution of bits in the center cell is uniformly distributed along the unit interval [0, 1]
         let mut distribution: [usize; 2] = [0, 0]; 
         let mut rng: R30 = R30::from_time();
-        let K: usize = 50000;
+        const K: usize = 50000;
 
         for _n in 0..=K {
             distribution[rng.rand_bit() as usize] += 1;
@@ -37,10 +37,10 @@ mod tests {
         // In our case: b = 0, so the mean should be about K / 2
         let mut mean: f64 = 0.0;
         for n in distribution {
-            mean += (n as f64);
+            mean += n as f64;
             assert!(( ( (n as f64) / (N as f64) ) as f64 - (1.0 / (N as f64) ) as f64 ) <= 0.05 );
         }
-        mean /= (N as f64);
+        mean /= N as f64;
         assert!(mean - (K as f64 / 2.0) <= 0.00005);
 
         // Compute the variance
