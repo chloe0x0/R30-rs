@@ -3,7 +3,7 @@ use std::vec;
 
 // Establish some constants
 pub const DEB: u64 = (1 as u64) << 31; // use for debugging
-const CELL_STR: &str = "\u{2588}"; // what to print for active cells when converting the state ot a String`
+const CELL_STR: &str = "\u{2588}"; // what to print for active cells when converting the state to a String
 
 // An entire PRNG in a single 64 bit word....
 pub struct R30 {
