@@ -1,4 +1,5 @@
 use std::time::SystemTime;
+use std::vec;
 
 // Establish some constants
 pub const DEB: u64 = (1 as u64) << 31; // use for debugging
@@ -63,5 +64,9 @@ impl R30 {
         }
 
         return s;
+    }
+    pub fn rand_choice<'a, T>(&'a mut self, xs: &'a Vec<T>) -> &T {
+        let ix: usize = self.rand_u64_in(0, xs.len() as u64 - 1) as usize;
+        return &xs[ix];
     }
 }

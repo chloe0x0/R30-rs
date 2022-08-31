@@ -42,7 +42,7 @@ fn main() {
     let mut rng: R30 = R30::from_time();
     println!("{}", rng.to_string());
 
-    // print 5x5 matrix of pseudorandom integers in the interval [0, 100]
+    // print matrix of pseudorandom integers in the interval [0, 100]
     for i in 0..50 {
         let n = rng.rand_u64_in(0, 100);
         if (i + 1) % 5 == 0 {
@@ -61,4 +61,8 @@ fn main() {
 
     // fair 6 sided dice roll
     println!("Rolled a {}!", rng.rand_u64_in(1, 6));
+
+    for _n in 0..=10000000 {
+        let bit: bool = rng.rand_bit();
+    }
 }
