@@ -1,5 +1,6 @@
 mod r30;
 use r30::{DEB, R30};
+use std::time::{SystemTime, Instant, Duration};
 
 #[cfg(test)]
 mod tests {
@@ -22,9 +23,9 @@ mod tests {
     #[test]
     fn u64_uniformity() {
         // test the uniformity of N generated 64 bit words in the interval [0, K]
-        const K: u64 = 100;
+        const K: u64 = 10000;
         let mut rng: R30 = R30::from_time();
-        let mut distribution: [u64; (K + 1) as usize] = [0; (K + 1) as usize];
+        let mut distribution: [u8; (K + 1) as usize] = [0; (K + 1) as usize];
 
         const N: usize = 50000;
         for _n in 0..N {
@@ -35,6 +36,18 @@ mod tests {
         for n in distribution {
             assert!((((n as f64) / (N as f64)) as f64 - (1.0 / (N as f64)) as f64) <= 0.05);
         }
+    }
+    #[test]
+    fn speed_test() {
+        let mut rng = R30::from_time();
+
+        let start = Instant::now();
+        for n in 0..10000000 {
+            let bit = rng.rand_bit();
+        }
+        let end = start.elapsed().as_secs();
+
+        assert!(end < 1);
     }
 }
 
@@ -64,4 +77,7 @@ fn main() {
     for _n in 0..=10000000 {
         let bit: bool = rng.rand_bit();
     }
+
+    let v: Vec<i32> = vec![0; 10];
+    let choice: &i32 = rng.rand_choice(&v);
 }

@@ -27,6 +27,7 @@ impl R30 {
 
         R30 { state: seed }
     }
+    #[inline]
     fn iterate(&mut self) {
         // pre-evolve the edge bit to avoid overflow on the most significant bit (leads to the state becoming u64 max)
         let n: u64 =
@@ -34,6 +35,7 @@ impl R30 {
         self.state = (self.state & !((1 as u64) << 63)) | (n << 63);
         self.state = (self.state >> 1) ^ (self.state | (self.state << 1));
     }
+    #[inline]
     pub fn rand_bit(&mut self) -> bool {
         let bit: bool = self.state & ((1 as u64) << 31) != 0;
         self.iterate();
