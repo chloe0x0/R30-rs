@@ -64,9 +64,7 @@ to generate a 64 bit word in the interval [a, b]
 fn main() {
     let mut rng = R30::from_time();
 
-    let a: u64 = 0;
-    let b: u64 = 10;
-    let x: u64 = rng.rand_u64_in(a, b);
+    let x: u64 = rng.rand_u64_in(0, 10);
 }
 ```
 
