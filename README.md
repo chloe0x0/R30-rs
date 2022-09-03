@@ -18,6 +18,13 @@ A psuedo-random bit generator in Rust implemented with the Rule-30 elementary ce
                   ██  █    █ ███   █  ███  █  █
                  ██ ████  ██ █  █ █████  ███████
 
+It should be noted that R30 is NOT a cryptographically secure PRNG, though it is very suitable for simulations.
+
+Compared to other generators R30 has a small state of only 64 bits. MT19937 requires about 2.5 KiB. R30 even beats the TinyMT variant which has a state size of 128 bits. For this reason, R30-64 is particularly well suited for systems where memory is limited.
+
+It is be possible to use a state size of 32 bits. 
+
+
 ## Usage
 
 Instantiation
