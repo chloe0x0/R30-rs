@@ -10,7 +10,7 @@ mod tests {
         // test that the generated distribution of bits in the center cell is uniformly distributed along the unit interval [0, 1]
         let mut distribution: [usize; 2] = [0, 0];
         let mut rng: R30 = R30::from_time();
-        const K: usize = 50000;
+        const K: usize = 5000000;
 
         for _n in 0..=K {
             distribution[rng.rand_bit() as usize] += 1;
@@ -48,6 +48,21 @@ mod tests {
         let end = start.elapsed().as_secs();
 
         assert!(end < 1);
+    }
+    #[test]
+    fn dice_roll_distribution() {
+        // Roll a 6 sided dice K times and assert that its distribution is uniform
+        const K: usize = 500000;
+        let mut rng = R30::from_time();
+        let mut distribution: [usize; (6 + 1) as usize] = [0; (6 + 1) as usize];
+        
+        for n in 0..=10000 {
+            distribution[rng.rand_u64_in(1, 6) as usize] += 1;
+        }
+
+        for i in 1..6 {
+            assert_eq!(distribution[i] / K, 1 / 6);
+        }
     }
 }
 
