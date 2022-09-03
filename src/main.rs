@@ -1,6 +1,6 @@
 mod r30;
 use r30::{DEB, R30};
-use std::time::{SystemTime, Instant, Duration};
+use std::time::{Duration, Instant, SystemTime};
 
 #[cfg(test)]
 mod tests {
@@ -55,8 +55,8 @@ mod tests {
         const K: usize = 500000;
         let mut rng = R30::from_time();
         let mut distribution: [usize; (6 + 1) as usize] = [0; (6 + 1) as usize];
-        
-        for n in 0..=10000 {
+
+        for n in 0..=K {
             distribution[rng.rand_u64_in(1, 6) as usize] += 1;
         }
 
@@ -95,4 +95,24 @@ fn main() {
 
     let v: Vec<i32> = vec![0; 10];
     let choice: &i32 = rng.rand_choice(&v);
+    // Print Histogram
+    let mut counts: Vec<i64> = vec![0; 7];
+
+    const K: usize = 100000;
+    for n in 0..K {
+        counts[rng.rand_u64_in(1, 6) as usize] += 1;
+    }
+
+    let mut hist = String::new();
+    println!("Side\t | \t Frequency");
+    println!("_________|____________");
+    for n in 1..=6 {
+        hist += &n.to_string()[..];
+        hist += "\t | \t";
+        hist += &(counts[n as usize] as f64 / K as f64).to_string();
+        hist += "\t Expected: ~0.1666....6667\n";
+    }
+
+    println!("{}", hist);
+    println!("N = {}", K);
 }
