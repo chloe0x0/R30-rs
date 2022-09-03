@@ -110,9 +110,19 @@ fn main() {
         hist += &n.to_string()[..];
         hist += "\t | \t";
         hist += &(counts[n as usize] as f64 / K as f64).to_string();
-        hist += "\t Expected: ~0.1666....6667\n";
+        hist += "\n";
     }
 
     println!("{}", hist);
     println!("N = {}", K);
+
+    let names: Vec<&str> = vec!["Chloe", "Gatsby", "Kafka", "Tori"];
+    println!("Hello {}!", rng.rand_choice(&names));
+
+    let mut rand = R30::new(DEB);
+    println!("{}", rand.to_string());
+    for n in 0..25 {
+        rand.rand_bit();
+        println!("{}", rand.to_string());
+    }
 }
