@@ -119,9 +119,11 @@ fn main() {
     let names: Vec<&str> = vec!["Chloe", "Gatsby", "Kafka", "Tori"];
     println!("Hello {}!", rng.rand_choice(&names));
 
-    let mut rand = R30::new(DEB);
+    let mut rand = R30::new((1 as u64) << 31);
+
+    println!("I love Rule 30! <3");
     println!("{}", rand.to_string());
-    for n in 0..25 {
+    for n in 0..15 {
         rand.rand_bit();
         println!("{}", rand.to_string());
     }
