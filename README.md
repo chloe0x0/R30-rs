@@ -32,6 +32,7 @@ fn main() {
     println!("I love Rule 30! <3");
     println!("{}", rng.to_string());
     for _n in 0..15 {
+        let bit = rng.rand_bit();       // iterate the automata
         println!("{}", rng.to_string());
     }
 }
