@@ -66,7 +66,7 @@ Instantiation
 With an explicit u64 seed
 ```rust
 fn main() {
-    let mut rng: r30 = R30::new(69);
+    let mut rng: R30 = R30::new(69);
 }
 ```
 
