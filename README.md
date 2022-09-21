@@ -82,7 +82,7 @@ the above will square the system time and use it as the seed
 
 The power of the R30 generator lies in the fact that the distribution of 0 and 1 cells in its center column is uniform
 
-to sample a random bit from the current state
+to sample the center cell's bit from the current state as a boolean
 ```rust
 fn main() {
     let mut rng = R30::from_time();
