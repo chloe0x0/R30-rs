@@ -25,18 +25,18 @@ Compared to other generators R30 has a small state of only 32 bits. MT19937 requ
 ## Seeding the generator
 
 Using an explicit u32 seed
-```rust
+```Rust
 let mut gen: R30 = R30::new(69u32);
 ```
 
 Using the Default trait
 (the time since the UNIX_EPOCH will be computed in seconds and squared)
-```rust
+```Rust
 let mut gen: R30 = R30::default();
 ```
 
 If you only want the middle cell to be 1, simply use the center() trait
-```rust
+```Rust
 let mut gen: R30 = R30::center();
 // Equivalent to R30::new(1 << 16)
 ```
@@ -45,7 +45,7 @@ let mut gen: R30 = R30::center();
 The R30 struct implements traits for generating u32, u64, i32, i64, f32, f64, and bool types, as well as support for generating u32 and u64 types within an interval [a, b], and uniformly sampling from a vector.
 
 for example, to generate a random boolean
-```rust
+```Rust
 use r30_rs::*;
 
 fn main() {    
@@ -60,14 +60,14 @@ fn main() {
 ```
 
 to generate a u32
-```rust
+```Rust
 let num: u32 = gen.next_u32();
 ```
 u64, i32, i64, f32, and f64 types are generated similarly 
 (next_<type_name>)
 
 for generating a u32 or u64 in the closed interval [a, b]
-```rust
+```Rust
 // Roll a 6 sided die
 let num: u32 = gen.next_u32_in(1, 6);
 // Roll a D20
@@ -75,7 +75,7 @@ let roll: u64 = gen.next_u64_in(1, 20);
 ```
 
 to uniformly sample an element from a Vec\<T>
-```rust
+```Rust
 fn main() {
     let v = vec!["owo", "uwu", "OwO", "UwU", "() W ()"];
     println!("{}", gen.rand_choice(&v));
