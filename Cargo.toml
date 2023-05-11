@@ -6,6 +6,8 @@ keywords = ["prng", "rand", "random"]
 authors = ["chloe"]
 repository = "https://github.com/chloe0x0/R30-rs"
 description = "A psuedo-random bit generator in Rust implemented with the Rule-30 elementary cellular automata"
+license = "MIT"
+license_path = "/LICENSE"
 
 [lib]
 name = "r30_rs"
