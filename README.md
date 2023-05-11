@@ -20,103 +20,70 @@ A psuedo-random bit generator in Rust implemented with the Rule-30 elementary ce
 
 It should be noted that R30 is NOT a cryptographically secure PRNG, though it is very suitable for simulations.
 
-Compared to other generators R30 has a small state of only 64 bits. MT19937 requires about 2.5 KiB. R30 even beats the TinyMT variant which has a state size of 128 bits. For this reason, R30-64 is particularly well suited for systems where memory is limited. 
+Compared to other generators R30 has a small state of only 32 bits. MT19937 requires about 2.5 KiB. R30 even beats the TinyMT variant which has a state size of 128 bits. For this reason, R30-32 is particularly well suited for systems where memory is limited. 
 
-It is be possible to use a state size of 32 bits. 
+## Seeding the generator
 
-To see the state of the generator in all its beauty, simply convert it to a string
+Using an explicit u32 seed
 ```rust
-fn main() {
-    let mut rng = R30::new((1 as u64) << 31);
+let mut gen: R30 = R30::new(69u32);
+```
 
-    println!("I love Rule 30! <3");
-    println!("{}", rng.to_string());
-    for _n in 0..15 {
-        println!("{}", rng.to_string());
+Using the Default trait
+(the time since the UNIX_EPOCH will be computed in seconds and squared)
+```rust
+let mut gen: R30 = R30::default();
+```
+
+If you only want the middle cell to be 1, simply use the center() trait
+```rust
+let mut gen: R30 = R30::center();
+// Equivalent to R30::new(1 << 16)
+```
+
+## Using the generator
+The R30 struct implements traits for generating u32, u64, i32, i64, f32, f64, and bool types, as well as support for generating u32 and u64 types within an interval [a, b], and uniformly sampling from a vector.
+
+for example, to generate a random boolean
+```rust
+use r30_rs::*;
+
+fn main() {    
+    let mut gen = R30::default();
+
+    if gen.next_bool() {
+        println!("uwu");
+    } else {
+        println!("owo");
     }
 }
 ```
 
-should output
-```console
-I love Rule 30! <3
-                                █
-                               ███
-                              ██  █
-                             ██ ████
-                            ██  █   █
-                           ██ ████ ███
-                          ██  █    █  █
-                         ██ ████  ██████
-                        ██  █   ███     █
-                       ██ ████ ██  █   ███
-                      ██  █    █ ████ ██  █
-                     ██ ████  ██ █    █ ████
-                    ██  █   ███  ██  ██ █   █
-                   ██ ████ ██  ███ ███  ██ ███
-                  ██  █    █ ███   █  ███  █  █
-                 ██ ████  ██ █  █ █████  ███████
-```
-
-## Usage
-
-Instantiation
-
-With an explicit u64 seed
+to generate a u32
 ```rust
-fn main() {
-    let mut rng: r30 = R30::new(69);
-}
+let num: u32 = gen.next_u32();
 ```
+u64, i32, i64, f32, and f64 types are generated similarly 
+(next_<type_name>)
 
-seeing that R30 is a deterministic system (it will produce the same sequence given the same seed) it may be desirable to use the system time as a seed
-
-The API makes this trivial
+for generating a u32 or u64 in the closed interval [a, b]
 ```rust
-fn main() {
-    let mut rng = R30::from_time();
-}
-```
-the above will square the system time and use it as the seed
-
-The power of the R30 generator lies in the fact that the distribution of 0 and 1 cells in its center column is uniform
-
-to sample a random bit from the current state
-```rust
-fn main() {
-    let mut rng = R30::from_time();
-
-    let bit: bool = rng.rand_bit(); // 1 or 0
-}
-```
-
-to sample N bits as the basis for a 64 bit word
-```rust
-fn main() {
-    let mut rng = R30::from_time();
-    
-    let x: u64 = rng.rand_u64(5); // sample 5 bits and fill a u64 with them
-}
-```
-
-to generate a 64 bit word in the interval [a, b]
-```rust
-fn main() {
-    let mut rng = R30::from_time();
-
-    let x: u64 = rng.rand_u64_in(0, 10);
-}
+// Roll a 6 sided die
+let num: u32 = gen.next_u32_in(1, 6);
+// Roll a D20
+let roll: u64 = gen.next_u64_in(1, 20);
 ```
 
 to uniformly sample an element from a Vec\<T>
 ```rust
 fn main() {
-    let mut rng = R30::from_time();
-
-    let names: Vec<&str> = vec!["Chloe", "Gatsby", "Kafka", "Tori"];
-    println!("I love {}!", rng.rand_choice(&names));
-
-    let nums: Vec<i32> = vec![0, 1, 2, 3];
-    let x: &i32 = rng.rand_choice(&nums);
+    let v = vec!["owo", "uwu", "OwO", "UwU", "() W ()"];
+    println!("{}", gen.rand_choice(&v));
 }
+```
+
+## Testing the generator
+To test that everything works, simply run
+```console
+cargo test --release
 ```

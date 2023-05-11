@@ -2,7 +2,14 @@
 name = "r30_rs"
 version = "0.1.0"
 edition = "2021"
+keywords = ["prng", "rand", "random"]
+authors = ["chloe"]
+repository = "https://github.com/chloe0x0/R30-rs"
+description = "A psuedo-random bit generator in Rust implemented with the Rule-30 elementary cellular automata"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "r30_rs"
+path = "src/lib.rs"
 
 [dependencies]
+rand = "0.8.5"
