@@ -3,6 +3,8 @@ pub use r30::*;
 
 #[cfg(test)]
 mod tests {
+    use std::{f64::consts::PI};
+
     use crate::*;
 
     /// Assert that the Automata behaves as expected
@@ -68,5 +70,28 @@ mod tests {
         }
     }
     
+    /// Monte Carlo approximation to Pi
+    #[test]
+    fn monte_carlo_pi() {
+        let mut gen = R30::default();
+        
+        // How many points to sample
+        const ITERS: u64 = 4e6 as u64;
+        // Have to be generous with the epsilon for this one (the Monte Carlo approximation is quite bad!)
+        const EPSILON: f64 = 1e-1;
+        let mut inside = 0u64;
+
+        for _ in 0..=ITERS {
+            // random point in [0, 1) x [0, 1) (x := set cross product)
+            let x = gen.next_f64();
+            let y = gen.next_f64();
+
+            // if the distance from the origin is less than 1, it is within the circle
+            inside += ((x*x + y*y) <= 1.0) as u64;
+        }
+        // pi/4 ~ ratio of points within the circle and total # of points
+        let pi = 4.0f64 * (inside as f64 / ITERS as f64);
+        assert!((pi - PI).abs() <= EPSILON);
+    }
 
 }
